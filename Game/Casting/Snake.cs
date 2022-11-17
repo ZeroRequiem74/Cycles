@@ -12,14 +12,12 @@ namespace Unit05.Game.Casting
     {
         private List<Actor> segments = new List<Actor>();
 
-        Color color;
-
         /// <summary>
         /// Constructs a new instance of a Snake.
         /// </summary>
         public Snake(Color color, Vector2 startingPosition)
         {
-            this.color = color;
+            SetColor(color);
             PrepareBody(startingPosition);
         }
 
@@ -67,7 +65,7 @@ namespace Unit05.Game.Casting
                 segment.SetPosition(position);
                 segment.SetVelocity(velocity);
                 segment.SetText("#");
-                segment.SetColor(this.color);
+                segment.SetColor(GetColor());
                 segments.Add(segment);
             }
         }
@@ -111,7 +109,7 @@ namespace Unit05.Game.Casting
                 Point position = new Point(x - i * Constants.CELL_SIZE, y);
                 Point velocity = new Point(1 * Constants.CELL_SIZE, 0);
                 string text = i == 0 ? "8" : "#";
-                Color color = i == 0 ? Constants.YELLOW : Constants.GREEN;
+                Color color = i == 0 ? Constants.YELLOW : GetColor();
 
                 Actor segment = new Actor();
                 segment.SetPosition(position);

@@ -23,7 +23,6 @@ namespace Unit05
             Cast cast = new Cast();
             cast.AddActor("PlayerOne", new Snake(Constants.RED, new Vector2(Constants.CELL_SIZE * 4, Constants.CELL_SIZE * 4)));
             cast.AddActor("PlayerTwo", new Snake(Constants.BLUE, new Vector2(Constants.CELL_SIZE * 8, Constants.CELL_SIZE * 4)));
-            cast.AddActor("score", new Score());
 
             // create the services
             KeyboardService keyboardService = new KeyboardService();
