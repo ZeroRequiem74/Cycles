@@ -17,6 +17,7 @@ namespace Unit05.Game.Scripting
     public class HandleCollisionsAction : Action
     {
         private bool isGameOver = false;
+        private string loser = "";
 
         /// <summary>
         /// Constructs a new instance of HandleCollisionsAction.
@@ -30,7 +31,7 @@ namespace Unit05.Game.Scripting
         {
             if (isGameOver == false)
             {
-                HandleFoodCollisions(cast);
+                HandlePlayerCollisions(cast);
                 HandleSegmentCollisions(cast);
                 HandleGameOver(cast);
             }
@@ -40,28 +41,13 @@ namespace Unit05.Game.Scripting
         /// Updates the score nd moves the food if the snake collides with it.
         /// </summary>
         /// <param name="cast">The cast of actors.</param>
-        private void HandleFoodCollisions(Cast cast)
-        {
-            Snake snake = (Snake)cast.GetFirstActor("snake");
-            Score score = (Score)cast.GetFirstActor("score");
-            Food food = (Food)cast.GetFirstActor("food");
-            
-            if (snake.GetHead().GetPosition().Equals(food.GetPosition()))
-            {
-                int points = food.GetPoints();
-                snake.GrowTail(points);
-                score.AddPoints(points);
-                food.Reset();
-            }
-        }
-
         /// <summary>
         /// Sets the game over flag if the snake collides with one of its segments.
         /// </summary>
         /// <param name="cast">The cast of actors.</param>
         private void HandleSegmentCollisions(Cast cast)
         {
-            Snake snake = (Snake)cast.GetFirstActor("PlayerOne");
+            Snake snake = (Snake)cast.GetFirstActor("Player One");
             Actor head = snake.GetHead();
             List<Actor> body = snake.GetBody();
 
@@ -70,17 +56,59 @@ namespace Unit05.Game.Scripting
                 if (segment.GetPosition().Equals(head.GetPosition()))
                 {
                     isGameOver = true;
+                    loser = "Player One";
+                }
+            }
+
+            Snake secondSnake = (Snake)cast.GetFirstActor("Player Two");
+            Actor headTwo = secondSnake.GetHead();
+            List<Actor> bodyTwo = secondSnake.GetBody();
+
+            foreach (Actor segment in bodyTwo)
+            {
+                if (segment.GetPosition().Equals(headTwo.GetPosition()))
+                {
+                    isGameOver = true;
+                    loser = "Player Two";
                 }
             }
         }
 
+        private void HandlePlayerCollisions(Cast cast){
+            Snake snake = (Snake)cast.GetFirstActor("Player One");
+            Snake secondSnake = (Snake)cast.GetFirstActor("Player Two");
+            Actor head = snake.GetHead();
+            Actor headTwo = secondSnake.GetHead();
+            List<Actor> body = snake.GetBody();
+            List<Actor> bodyTwo = secondSnake.GetBody();
+
+            foreach (Actor segment in body)
+            {
+                if (segment.GetPosition().Equals(headTwo.GetPosition()))
+                {
+                    isGameOver = true;
+                    loser = "Player Two";
+                }
+            }
+            
+            foreach (Actor segment in bodyTwo)
+            {
+                if (segment.GetPosition().Equals(head.GetPosition()))
+                {
+                    isGameOver = true;
+                    loser = "Player One";
+                }
+            }
+        }
+
+       
         private void HandleGameOver(Cast cast)
         {
             if (isGameOver == true)
             {
-                Snake snake = (Snake)cast.GetFirstActor("snake");
+                Snake snake = (Snake)cast.GetFirstActor(loser);
                 List<Actor> segments = snake.GetSegments();
-                Food food = (Food)cast.GetFirstActor("food");
+                
 
                 // create a "game over" message
                 int x = Constants.MAX_X / 2;
@@ -88,7 +116,7 @@ namespace Unit05.Game.Scripting
                 Point position = new Point(x, y);
 
                 Actor message = new Actor();
-                message.SetText("Game Over!");
+                message.SetText($"{loser} Game Over!");
                 message.SetPosition(position);
                 cast.AddActor("messages", message);
 
@@ -97,8 +125,17 @@ namespace Unit05.Game.Scripting
                 {
                     segment.SetColor(Constants.WHITE);
                 }
-                food.SetColor(Constants.WHITE);
+                
             }
+        }
+
+        public bool Stop(){
+            bool stop = false;
+
+            if (isGameOver == true){
+                stop = true;
+            }
+            return stop;
         }
 
     }

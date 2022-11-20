@@ -10,13 +10,14 @@ namespace Unit05.Game.Scripting
     /// The responsibility of ControlActorsAction is to get the direction and move the snake's head.
     /// </para>
     /// </summary>
+
+    
     public class ControlActorsAction : Action
     {
         private KeyboardService keyboardService;
-        private Point oneDirection = new Point(Constants.CELL_SIZE, 0);
+        private Point oneDirection = new Point(0, -Constants.CELL_SIZE);
 
-        private Point twoDirection = new Point(Constants.CELL_SIZE, 0);
-
+        private Point twoDirection = new Point(0, -Constants.CELL_SIZE);
 
         /// <summary>
         /// Constructs a new instance of ControlActorsAction using the given KeyboardService.
@@ -56,13 +57,13 @@ namespace Unit05.Game.Scripting
             // left
             if (keyboardService.IsKeyDown("l"))
             {
-                twoDirection = new Point(-Constants.CELL_SIZE, 0);
+                twoDirection = new Point(Constants.CELL_SIZE, 0);
             }
 
             // right
             if (keyboardService.IsKeyDown("j"))
             {
-                twoDirection = new Point(Constants.CELL_SIZE, 0);
+                twoDirection = new Point(-Constants.CELL_SIZE, 0);
             }
 
             // up
@@ -79,8 +80,12 @@ namespace Unit05.Game.Scripting
 
 
 
-            Snake snake = (Snake)cast.GetFirstActor("PlayerOne");
-            Snake secondSnake = (Snake)cast.GetFirstActor("PlayerTwo");
+            Snake snake = (Snake)cast.GetFirstActor("Player One");
+            Snake secondSnake = (Snake)cast.GetFirstActor("Player Two");
+            
+            snake.GrowTail(1);
+            secondSnake.GrowTail(1);
+            
             snake.TurnHead(oneDirection);
             secondSnake.TurnHead(twoDirection);
 

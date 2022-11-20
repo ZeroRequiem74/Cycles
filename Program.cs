@@ -21,8 +21,8 @@ namespace Unit05
         {
             // create the cast
             Cast cast = new Cast();
-            cast.AddActor("PlayerOne", new Snake(Constants.RED, new Vector2(Constants.CELL_SIZE * 4, Constants.CELL_SIZE * 4)));
-            cast.AddActor("PlayerTwo", new Snake(Constants.BLUE, new Vector2(Constants.CELL_SIZE * 8, Constants.CELL_SIZE * 4)));
+            cast.AddActor("Player One", new Snake(Constants.RED, new Vector2(Constants.CELL_SIZE * 10, Constants.CELL_SIZE * 36)));
+            cast.AddActor("Player Two", new Snake(Constants.BLUE, new Vector2(Constants.CELL_SIZE * 50, Constants.CELL_SIZE * 36)));
 
             // create the services
             KeyboardService keyboardService = new KeyboardService();
