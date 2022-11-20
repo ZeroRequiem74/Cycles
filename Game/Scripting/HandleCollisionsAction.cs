@@ -129,14 +129,5 @@ namespace Unit05.Game.Scripting
             }
         }
 
-        public bool Stop(){
-            bool stop = false;
-
-            if (isGameOver == true){
-                stop = true;
-            }
-            return stop;
-        }
-
     }
 }
